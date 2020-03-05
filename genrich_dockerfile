@@ -1,0 +1,36 @@
+FROM ubuntu:18.04 
+#fetches docker image ubuntu:18.04
+MAINTAINER rosmaninho <pedro.rosmaninho@medicina.ulisboa.pt 
+# maintainer name
+
+ENV genrich_version 0.6
+#environment variables
+
+RUN apt-get update -y && apt-get install -y \
+    build-essential \
+    zlib1g \
+    zlib1g-dev \
+    git \
+    python-qt4 \
+    python-pyside \
+    python-pip \
+    python3-pip \
+    python3-pyqt5 \
+    make \
+    gcc \
+    libnss-sss \
+    curl \
+    less \
+    wget \
+    unzip
+
+#install Genrich
+WORKDIR /usr/local/
+RUN wget https://github.com/jsh58/Genrich/archive/v0.6.zip && \
+    unzip v0.6.zip -d /usr/local/ && \
+    rm v0.6.zip
+WORKDIR /usr/local/Genrich-${genrich_version}/
+RUN make -f Makefile
+
+ENV PATH /usr/local/Genrich-${genrich_version}/
+#environment variables
